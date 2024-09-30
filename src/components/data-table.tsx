@@ -7,7 +7,6 @@ import {
     TableCell,
     TableHeadText,
 } from "./ui/table";
-import { Text } from "react-native";
 import {
     ColumnDef,
     flexRender,
@@ -17,9 +16,10 @@ import {
     Row,
     getFilteredRowModel,
 } from "@tanstack/react-table";
+import { Text } from "./text";
 
 import "@tanstack/react-table";
-import { Href } from "expo-router";
+import { Href, useRouter } from "expo-router";
 
 declare module "@tanstack/react-table" {
     interface ColumnMeta<TData extends RowData, TValue> {
@@ -33,6 +33,7 @@ type DataTableProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     href?: (row: Row<TData>) => Href<string | object>;
+    onPress?: (row: Row<TData>) => void;
     itemHeight: number;
 };
 
@@ -40,7 +41,8 @@ export function DataTable<TData, TValue>({
     columns,
     data,
     href,
-    itemHeight
+    onPress,
+    itemHeight,
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -48,6 +50,7 @@ export function DataTable<TData, TValue>({
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
     });
+    const router = useRouter();
 
     return (
         <Table>
@@ -62,8 +65,9 @@ export function DataTable<TData, TValue>({
                                         maxWidth:
                                             header.column.columnDef.meta
                                                 ?.maxWidth,
-                                        flex: header.column.columnDef.meta
-                                            ?.flex,
+                                        flex:
+                                            header.column.columnDef.meta
+                                                ?.flex ?? 1,
                                     }}
                                 >
                                     <TableHeadText
@@ -90,77 +94,52 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
                 <TableBody
                     data={table.getRowModel().rows}
-                    getItemLayout={(data, index) => (
-                        {length: itemHeight, offset: itemHeight * index, index}
+                    getItemLayout={(data, index) => ({
+                        length: itemHeight,
+                        offset: itemHeight * index,
+                        index,
+                    })}
+                    renderItem={({ item: row }) => (
+                        <TableRow
+                            key={row.id}
+                            data-state={row.getIsSelected() && "selected"}
+                            onPress={() => {
+                                if (onPress) {
+                                    onPress(row);
+                                }
+                                if (href) {
+                                    router.navigate(href(row));
+                                }
+                            }}
+                        >
+                            {row.getVisibleCells().map((cell) => (
+                                <TableCell
+                                    key={cell.id}
+                                    style={{
+                                        maxWidth:
+                                            cell.column.columnDef.meta
+                                                ?.maxWidth,
+                                        flex:
+                                            cell.column.columnDef.meta?.flex ??
+                                            1,
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            textAlign:
+                                                cell.column.columnDef.meta
+                                                    ?.textAlign,
+                                        }}
+                                    >
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext(),
+                                        )}
+                                    </Text>
+                                </TableCell>
+                            ))}
+                        </TableRow>
                     )}
-                    renderItem={({ item: row }) =>
-                        href ? (
-                            // Link row
-                            <TableRow
-                                key={row.id}
-                                data-state={row.getIsSelected() && "selected"}
-                                href={href(row)}
-                            >
-                                {row.getVisibleCells().map((cell) => (
-                                    <TableCell
-                                        key={cell.id}
-                                        style={{
-                                            maxWidth:
-                                                cell.column.columnDef.meta
-                                                    ?.maxWidth,
-                                            flex: cell.column.columnDef.meta
-                                                ?.flex,
-                                        }}
-                                    >
-                                        <Text
-                                            style={{
-                                                textAlign:
-                                                    cell.column.columnDef.meta
-                                                        ?.textAlign,
-                                            }}
-                                        >
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext(),
-                                            )}
-                                        </Text>
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        ) : (
-                            // View row
-                            <TableRow
-                                key={row.id}
-                                data-state={row.getIsSelected() && "selected"}
-                            >
-                                {row.getVisibleCells().map((cell) => (
-                                    <TableCell
-                                        key={cell.id}
-                                        style={{
-                                            maxWidth:
-                                                cell.column.columnDef.meta
-                                                    ?.maxWidth,
-                                            flex: cell.column.columnDef.meta
-                                                ?.flex,
-                                        }}
-                                    >
-                                        <Text
-                                            style={{
-                                                textAlign:
-                                                    cell.column.columnDef.meta
-                                                        ?.textAlign,
-                                            }}
-                                        >
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext(),
-                                            )}
-                                        </Text>
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        )
-                    }
                 ></TableBody>
             ) : (
                 <TableBody
@@ -170,11 +149,11 @@ export function DataTable<TData, TValue>({
                             <TableCell
                                 style={{
                                     height: 96,
+                                    alignItems: "center",
+                                    justifyContent: "center",
                                 }}
                             >
-                                <Text style={{ textAlign: "center" }}>
-                                    No results.
-                                </Text>
+                                <Text>No results.</Text>
                             </TableCell>
                         </TableRow>
                     )}

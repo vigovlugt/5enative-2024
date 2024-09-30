@@ -1,5 +1,6 @@
+import { useTheme } from "@react-navigation/native";
 import { Href, Link } from "expo-router";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, View } from "react-native";
 
 export function ContentCell({
     title,
@@ -8,24 +9,27 @@ export function ContentCell({
     title: string;
     href: Href<string | object>;
 }) {
+    const theme = useTheme();
     return (
         <Link
             style={{
-                padding: 16,
+                padding: 8,
                 paddingTop: 32,
                 paddingBottom: 32,
-                backgroundColor: "white",
+                backgroundColor: theme.colors.card,
                 borderRadius: 8,
                 borderWidth: 1,
-                borderColor: "rgb(216, 216, 216)",
+                borderColor: theme.colors.border,
                 fontWeight: "bold",
                 fontSize: 24,
-                flexGrow: 1,
                 textAlign: "center",
+                textAlignVertical: "center",
+                color: theme.colors.text,
+                flex: 1,
             }}
             href={href}
         >
-            <Text>{title}</Text>
+            {title}
         </Link>
     );
 }
@@ -34,7 +38,7 @@ export default function Content() {
     return (
         <View
             style={{
-                padding: 16,
+                padding: 8,
                 justifyContent: "flex-end",
                 height: "100%",
             }}
@@ -45,7 +49,13 @@ export default function Content() {
                     [
                         { title: "Spells", href: "/content/spells" },
                         { title: "Rules", href: "/content/rules" },
+                        {
+                            title: "Class Features",
+                            href: "/content/class-features",
+                        },
+                        { title: "Feats", href: "/content/feats" },
                         { title: "Actions", href: "/content/actions" },
+                        { title: "Conditions", href: "/content/conditions" },
                     ] as const
                 }
                 numColumns={2}

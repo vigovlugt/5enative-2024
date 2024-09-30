@@ -1,7 +1,8 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { EntriesEntry } from "./entry";
 import { Action as ActionType, getActionId } from "../types/action";
 import { Link } from "./ui/link";
+import { Text } from "./text";
 
 export function Action({ action }: { action: ActionType }) {
     return (
@@ -19,7 +20,6 @@ export function Action({ action }: { action: ActionType }) {
             <EntriesEntry
                 entry={{
                     type: "entries",
-                    caption: "",
                     entries: action.entries,
                 }}
             />
@@ -32,13 +32,15 @@ export function Action({ action }: { action: ActionType }) {
                     }}
                 >
                     See also:{" "}
-                    {action.seeAlsoAction.map((a) => {
+                    {action.seeAlsoAction.map((a, i) => {
                         const parts = a.split("|");
                         const name = parts[0];
                         const source =
                             parts.length > 1 ? parts[1] : action.source;
                         return (
                             <Link
+                                key={i}
+                                variant="link"
                                 href={{
                                     pathname: "/content/actions/[id]",
                                     params: {

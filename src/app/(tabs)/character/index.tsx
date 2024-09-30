@@ -1,5 +1,6 @@
 import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@/src/components/text";
 
 export default function Index() {
     return (
@@ -10,17 +11,8 @@ export default function Index() {
                 alignItems: "center",
             }}
         >
-            <Text>HI</Text>
-            <Link
-                href={{
-                    pathname: "/character/spells/[id]",
-                    params: {
-                        id: "1",
-                    },
-                }}
-            >
-                Spell
-            </Link>
+            <Text>TODO</Text>
+
             {/* <Spells spells={spells.spell as any} /> */}
             {/* <Spell spell={spells.spell[index] as any} /> */}
         </View>

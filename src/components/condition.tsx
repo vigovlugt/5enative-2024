@@ -1,9 +1,9 @@
 import { View } from "react-native";
 import { EntriesEntry } from "./entry";
-import { Rule as RuleType } from "../types/rule";
+import { Condition as ConditionType } from "../types/condition";
 import { Text } from "./text";
 
-export function Rule({ rule }: { rule: RuleType }) {
+export function Condition({ condition }: { condition: ConditionType }) {
     return (
         <View style={{ gap: 8 }}>
             <Text
@@ -12,12 +12,12 @@ export function Rule({ rule }: { rule: RuleType }) {
                     fontWeight: "bold",
                 }}
             >
-                {rule.name}
+                {condition.name}
             </Text>
             <EntriesEntry
                 entry={{
                     type: "entries",
-                    entries: rule.entries,
+                    entries: condition.entries,
                 }}
             />
             <Text
@@ -27,7 +27,7 @@ export function Rule({ rule }: { rule: RuleType }) {
                     color: "#666",
                 }}
             >
-                {rule.source} {rule.page}
+                {condition.source} {condition.page}
             </Text>
         </View>
     );

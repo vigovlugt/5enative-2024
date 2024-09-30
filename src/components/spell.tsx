@@ -1,4 +1,5 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import { Text } from "./text";
 import { endsName } from "../types/ends";
 import { schoolName } from "../types/spell/school";
 import {
@@ -50,7 +51,6 @@ export function Spell({ spell }: { spell: SpellType }) {
             <EntriesEntry
                 entry={{
                     type: "entries",
-                    caption: "",
                     entries: spell.entries,
                 }}
             />
@@ -58,7 +58,6 @@ export function Spell({ spell }: { spell: SpellType }) {
                 <EntriesEntry
                     entry={{
                         type: "entries",
-                        caption: "",
                         entries: spell.entriesHigherLevel,
                     }}
                 />

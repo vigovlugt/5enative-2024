@@ -4,7 +4,11 @@ import { Book, Search, User } from "lucide-react-native";
 
 export default function TabLayout() {
     return (
-        <Tabs screenOptions={{}}>
+        <Tabs
+            screenOptions={{
+                lazy: false,
+            }}
+        >
             <Tabs.Screen
                 name="character"
                 options={{

@@ -1,7 +1,8 @@
 import { useLocalSearchParams } from "expo-router";
-import { Text, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { useRule } from "@/src/contexts/data";
 import { Rule } from "@/src/components/rule";
+import { Text } from "@/src/components/text";
 
 export default function RulePage() {
     const { id } = useLocalSearchParams();
@@ -11,7 +12,7 @@ export default function RulePage() {
     }
 
     return (
-        <ScrollView contentContainerStyle={{ padding: 16 }}>
+        <ScrollView contentContainerStyle={{ padding: 8 }}>
             <Rule rule={rule} />
         </ScrollView>
     );

@@ -1,32 +1,24 @@
 import { DataTable } from "@/src/components/data-table";
 import { Input } from "@/src/components/ui/input";
 import { useData } from "@/src/contexts/data";
-import { getSpellId, Spell } from "@/src/types/spell/spell";
+import { getFeatId, Feat } from "@/src/types/feat";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import React from "react";
 import { View } from "react-native";
 
-const columnHelper = createColumnHelper<Spell>();
+const columnHelper = createColumnHelper<Feat>();
 const columns = [
-    columnHelper.accessor((s) => s.level, {
-        id: "level",
-        header: "Lvl",
-        meta: {
-            maxWidth: 38,
-            textAlign: "center",
-        },
-    }),
     columnHelper.accessor("name", {
         header: "Name",
     }),
-] satisfies ColumnDef<Spell, any>[];
+] satisfies ColumnDef<Feat, any>[];
 
-export default function SpellsPage() {
-    const { spells } = useData();
+export default function FeatsPage() {
+    const { feats } = useData();
     const [search, setSearch] = React.useState("");
 
-    const filteredSpells = spells.filter((spell) =>
-        spell.name.toLowerCase().includes(search.toLowerCase()),
+    const filteredFeats = feats.filter((feat) =>
+        feat.name.toLowerCase().includes(search.toLowerCase()),
     );
 
     return (
@@ -47,11 +39,11 @@ export default function SpellsPage() {
             </View>
             <DataTable
                 columns={columns}
-                data={filteredSpells}
+                data={filteredFeats}
                 itemHeight={38}
                 href={(row) => ({
-                    pathname: "/content/spells/[id]",
-                    params: { id: getSpellId(row.original) },
+                    pathname: "/content/feats/[id]",
+                    params: { id: getFeatId(row.original) },
                 })}
             />
         </View>

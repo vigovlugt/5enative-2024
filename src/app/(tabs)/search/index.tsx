@@ -5,15 +5,26 @@ import { getActionId, Action } from "@/src/types/action";
 import { getRuleId } from "@/src/types/rule";
 import { getSpellId } from "@/src/types/spell/spell";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { Href } from "expo-router";
-import React from "react";
-import { View } from "react-native";
+import { Href, useFocusEffect } from "expo-router";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import { TextInput, View } from "react-native";
+import { Text } from "@/src/components/text";
+import { getClassFeatureId, getClassFeatureName } from "@/src/types/class";
+import { getConditionId } from "@/src/types/condition";
+import { getFeatId } from "@/src/types/feat";
 
-export type SearchItemType = "spell" | "rule" | "action";
+export type SearchItemType =
+    | "spell"
+    | "rule"
+    | "action"
+    | "classFeature"
+    | "feat"
+    | "condition";
 
 type SearchItem = {
-    source: string;
+    id: string;
     name: string;
+    source: string;
     type: SearchItemType;
 };
 
@@ -22,25 +33,42 @@ function itemTypeName(type: SearchItemType) {
         spell: "Spell",
         rule: "Rule",
         action: "Action",
+        classFeature: "Class Feature",
+        feat: "Feat",
+        condition: "Condition",
     }[type];
 }
-
 function itemHref(item: SearchItem): Href<string | object> {
     switch (item.type) {
         case "action":
             return {
                 pathname: "/content/actions/[id]",
-                params: { id: getActionId(item) },
+                params: { id: item.id },
             } satisfies Href;
         case "rule":
             return {
                 pathname: "/content/rules/[id]",
-                params: { id: getRuleId(item) },
+                params: { id: item.id },
             } satisfies Href;
         case "spell":
             return {
                 pathname: "/content/spells/[id]",
-                params: { id: getSpellId(item) },
+                params: { id: item.id },
+            } satisfies Href;
+        case "classFeature":
+            return {
+                pathname: "/content/class-features/[id]",
+                params: { id: item.id },
+            } satisfies Href;
+        case "feat":
+            return {
+                pathname: "/content/feats/[id]",
+                params: { id: item.id },
+            } satisfies Href;
+        case "condition":
+            return {
+                pathname: "/content/conditions/[id]",
+                params: { id: item.id },
             } satisfies Href;
     }
 }
@@ -51,11 +79,14 @@ const columns = [
         header: "Type",
         cell: (cell) => itemTypeName(cell.row.original.type),
         meta: {
-            maxWidth: 60,
+            maxWidth: 80,
         },
     }),
     columnHelper.accessor("name", {
         header: "Name",
+        cell: (cell) => (
+            <Text style={{ fontWeight: "bold" }}>{cell.row.original.name}</Text>
+        ),
     }),
     columnHelper.accessor("source", {
         header: "Source",
@@ -66,38 +97,81 @@ const columns = [
 ] satisfies ColumnDef<SearchItem, any>[];
 
 export default function SearchPage() {
-    const { actions, rules, spells } = useData();
+    const { actions, rules, spells, conditions, classFeatures, feats } =
+        useData();
     const [search, setSearch] = React.useState("");
+    const searchRef = useRef<TextInput>(null);
 
-    const searchItems: SearchItem[] = [
-        ...actions.map(
-            (action) =>
-                ({
-                    source: action.source,
-                    name: action.name,
-                    type: "action",
-                }) as const,
-        ),
-        ...rules.map(
-            (rule) =>
-                ({
-                    source: rule.source,
-                    name: rule.name,
-                    type: "rule",
-                }) as const,
-        ),
-        ...spells.map(
-            (spell) =>
-                ({
-                    source: spell.source,
-                    name: spell.name,
-                    type: "spell",
-                }) as const,
-        ),
-    ];
+    const searchItems: SearchItem[] = useMemo(
+        () => [
+            ...actions.map(
+                (action) =>
+                    ({
+                        source: action.source,
+                        name: action.name,
+                        type: "action",
+                        id: getActionId(action),
+                    }) as const,
+            ),
+            ...rules.map(
+                (rule) =>
+                    ({
+                        source: rule.source,
+                        name: rule.name,
+                        type: "rule",
+                        id: getRuleId(rule),
+                    }) as const,
+            ),
+            ...spells.map(
+                (spell) =>
+                    ({
+                        source: spell.source,
+                        name: spell.name,
+                        type: "spell",
+                        id: getSpellId(spell),
+                    }) as const,
+            ),
+            ...conditions.map(
+                (condition) =>
+                    ({
+                        source: condition.source,
+                        name: condition.name,
+                        type: "condition",
+                        id: getConditionId(condition),
+                    }) as const,
+            ),
+            ...classFeatures.map(
+                (classFeature) =>
+                    ({
+                        source: classFeature.source,
+                        name: getClassFeatureName(classFeature),
+                        type: "classFeature",
+                        id: getClassFeatureId(classFeature),
+                    }) as const,
+            ),
+            ...feats.map(
+                (feat) =>
+                    ({
+                        source: feat.source,
+                        name: feat.name,
+                        type: "feat",
+                        id: getFeatId(feat),
+                    }) as const,
+            ),
+        ],
+        [actions, rules, spells, conditions, classFeatures, feats],
+    );
 
     const filteredItems = searchItems.filter((item) =>
         item.name.toLowerCase().includes(search.toLowerCase()),
+    );
+
+    useFocusEffect(
+        useCallback(() => {
+            if (searchRef.current) {
+                searchRef.current.focus();
+            }
+        }, [searchRef.current]),
     );
 
     return (
@@ -114,6 +188,7 @@ export default function SearchPage() {
                     onChangeText={setSearch}
                     placeholder="Search..."
                     placeholderTextColor={"#666"}
+                    ref={searchRef}
                 />
             </View>
             <DataTable
@@ -121,6 +196,7 @@ export default function SearchPage() {
                 data={filteredItems}
                 itemHeight={38}
                 href={(row) => itemHref(row.original)}
+                onPress={() => setSearch("")}
             />
         </View>
     );

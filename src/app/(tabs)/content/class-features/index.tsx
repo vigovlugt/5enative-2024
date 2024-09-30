@@ -1,32 +1,43 @@
 import { DataTable } from "@/src/components/data-table";
 import { Input } from "@/src/components/ui/input";
 import { useData } from "@/src/contexts/data";
-import { getSpellId, Spell } from "@/src/types/spell/spell";
+import { getClassFeatureId, ClassFeature } from "@/src/types/class";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import React from "react";
 import { View } from "react-native";
 
-const columnHelper = createColumnHelper<Spell>();
+const columnHelper = createColumnHelper<ClassFeature>();
 const columns = [
-    columnHelper.accessor((s) => s.level, {
-        id: "level",
+    columnHelper.accessor("className", {
+        header: "Class",
+        meta: {
+            maxWidth: 80,
+        },
+    }),
+    columnHelper.accessor("subclassShortName", {
+        header: "Subclass",
+        meta: {
+            maxWidth: 80,
+        },
+    }),
+    columnHelper.accessor("level", {
         header: "Lvl",
         meta: {
-            maxWidth: 38,
-            textAlign: "center",
+            maxWidth: 40,
+            textAlign: "right",
         },
     }),
     columnHelper.accessor("name", {
         header: "Name",
     }),
-] satisfies ColumnDef<Spell, any>[];
+] satisfies ColumnDef<ClassFeature, any>[];
 
-export default function SpellsPage() {
-    const { spells } = useData();
+export default function ClassFeaturesPage() {
+    const { classFeatures } = useData();
     const [search, setSearch] = React.useState("");
 
-    const filteredSpells = spells.filter((spell) =>
-        spell.name.toLowerCase().includes(search.toLowerCase()),
+    const filteredClassFeatures = classFeatures.filter((classFeature) =>
+        classFeature.name.toLowerCase().includes(search.toLowerCase()),
     );
 
     return (
@@ -47,11 +58,11 @@ export default function SpellsPage() {
             </View>
             <DataTable
                 columns={columns}
-                data={filteredSpells}
+                data={filteredClassFeatures}
                 itemHeight={38}
                 href={(row) => ({
-                    pathname: "/content/spells/[id]",
-                    params: { id: getSpellId(row.original) },
+                    pathname: "/content/class-features/[id]",
+                    params: { id: getClassFeatureId(row.original) },
                 })}
             />
         </View>

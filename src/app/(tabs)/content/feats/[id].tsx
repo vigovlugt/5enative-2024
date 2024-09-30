@@ -1,19 +1,19 @@
 import { useLocalSearchParams } from "expo-router";
 import { ScrollView } from "react-native";
-import { useSpell } from "@/src/contexts/data";
-import { Spell } from "@/src/components/spell";
+import { useFeat } from "@/src/contexts/data";
+import { Feat } from "@/src/components/feat";
 import { Text } from "@/src/components/text";
 
-export default function SpellPage() {
+export default function FeatPage() {
     const { id } = useLocalSearchParams();
-    const spell = useSpell(id.toString());
-    if (!spell) {
-        return <Text>Spell not found</Text>;
+    const feat = useFeat(id.toString());
+    if (!feat) {
+        return <Text>Feat not found</Text>;
     }
 
     return (
         <ScrollView contentContainerStyle={{ padding: 8 }}>
-            <Spell spell={spell} />
+            <Feat feat={feat} />
         </ScrollView>
     );
 }

@@ -54,7 +54,7 @@ Join our community of developers creating universal apps.
 Install app preview
 
 ```bash
-pnpm eas build --profile preview --platform android --local --output=app.apk
+pnpm eas build --profile preview --platform android --local --output=dist/app.apk
 nix-shell -p android-tools
-adb install app.apk
+adb install dist/app.apk
 ```

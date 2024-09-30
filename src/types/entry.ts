@@ -8,7 +8,7 @@ export type TableEntry = {
 
 export type EntriesEntry = {
     type: "entries";
-    caption: string;
+    name?: string;
     entries: Entry[];
 };
 
@@ -29,4 +29,15 @@ export type ListEntry = {
     items: Entry[];
 };
 
-export type Entry = string | TableEntry | EntriesEntry | ItemEntry | ListEntry;
+export type RefSubclassFeatureEntry = {
+    type: "refSubclassFeature";
+    subclassFeature: string;
+};
+
+export type Entry =
+    | string
+    | TableEntry
+    | EntriesEntry
+    | ItemEntry
+    | ListEntry
+    | RefSubclassFeatureEntry;

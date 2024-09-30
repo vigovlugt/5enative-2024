@@ -16,12 +16,6 @@ export default function CharacterLayout() {
                     title: "Character",
                 }}
             />
-            <Stack.Screen
-                name="spells/[id]"
-                options={{
-                    title: "Spell",
-                }}
-            />
         </Stack>
     );
 }
