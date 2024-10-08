@@ -42,7 +42,7 @@ export function Action({ action }: { action: ActionType }) {
                                 key={i}
                                 variant="link"
                                 href={{
-                                    pathname: "/content/actions/[id]",
+                                    pathname: "/actions/[id]",
                                     params: {
                                         id: getActionId({ name, source }),
                                     },

@@ -43,10 +43,8 @@ export function Entry({ entry }: { entry: EntryType }) {
             return <RefFeatEntry entry={entry} />;
     }
 
-    entry satisfies never;
-
-    console.error(entry);
-    throw new Error(`Unknown entry type: ${(entry as any).type}`);
+    console.error(`Unknown entry type: ${(entry as any).type}`);
+    return <Text style={{ color: "red" }}>{JSON.stringify(entry)}</Text>;
 }
 
 export function TableEntry({ entry }: { entry: TableEntryType }) {
@@ -64,6 +62,7 @@ export function TableEntry({ entry }: { entry: TableEntryType }) {
                     </TableRow>
                 </TableHeader>
                 <TableBody
+                    scrollEnabled={false}
                     data={entry.rows}
                     renderItem={(row) => (
                         <TableRow>
@@ -99,16 +98,21 @@ export function EntriesEntry({ entry }: { entry: EntriesEntryType }) {
 }
 
 export function ItemEntry({ entry }: { entry: ItemEntryType }) {
+    const entries = [
+        ...(entry.entry ? [entry.entry] : []),
+        ...(entry.entries ? entry.entries : []),
+    ];
+
     return (
         <Text>
             <Text style={{ fontWeight: "bold" }}>
                 {entry.name}
-                {". "}
+                {entry.entries ? "." : ""}{" "}
             </Text>
-            {entry.entries.map((e, i) => (
+            {entries.map((e, i) => (
                 <Fragment key={i}>
                     <Entry entry={e} />
-                    {i !== entry.entries.length - 1 && <Text>{"\n"}</Text>}
+                    {i !== entries.length - 1 && <Text>{"\n"}</Text>}
                 </Fragment>
             ))}
         </Text>
@@ -147,7 +151,7 @@ export function RefSubclassFeatureEntry({
         <Link
             variant="link"
             href={{
-                pathname: "/content/class-features/[id]",
+                pathname: "/class-features/[id]",
                 params: {
                     id: getClassFeatureId({
                         name,
@@ -177,7 +181,7 @@ export function RefFeatEntry({ entry }: { entry: { feat: string } }) {
         <Link
             variant="link"
             href={{
-                pathname: "/content/feats/[id]",
+                pathname: "/feats/[id]",
                 params: {
                     id: getFeatId({
                         name,
@@ -232,7 +236,7 @@ export function EntryText({ entry }: { entry: string }) {
                                     key={i}
                                     variant="link"
                                     href={{
-                                        pathname: "/content/rules/[id]",
+                                        pathname: "/rules/[id]",
                                         params: {
                                             id: getRuleId({
                                                 name: text,
@@ -258,7 +262,7 @@ export function EntryText({ entry }: { entry: string }) {
                                     key={i}
                                     variant="link"
                                     href={{
-                                        pathname: "/content/actions/[id]",
+                                        pathname: "/actions/[id]",
                                         params: {
                                             id: getActionId({
                                                 name: actionType,
@@ -284,7 +288,7 @@ export function EntryText({ entry }: { entry: string }) {
                                     key={i}
                                     variant="link"
                                     href={{
-                                        pathname: "/content/conditions/[id]",
+                                        pathname: "/conditions/[id]",
                                         params: {
                                             id: getRuleId({
                                                 name: condition,
@@ -318,7 +322,7 @@ export function EntryText({ entry }: { entry: string }) {
                                     key={i}
                                     variant="link"
                                     href={{
-                                        pathname: "/content/spells/[id]",
+                                        pathname: "/spells/[id]",
                                         params: { id },
                                     }}
                                 >
@@ -400,7 +404,7 @@ export function EntryText({ entry }: { entry: string }) {
                                     key={i}
                                     variant="link"
                                     href={{
-                                        pathname: "/content/feats/[id]",
+                                        pathname: "/feats/[id]",
                                         params: {
                                             id: getRuleId({
                                                 name: args[0],
@@ -447,8 +451,14 @@ export function EntryText({ entry }: { entry: string }) {
                             );
                         }
                         default:
-                            throw new Error(
-                                `Unknown tag: ${type}, ${JSON.stringify(args)}`,
+                            console.error(`Unknown tag type: ${type} ${args}`);
+                            return (
+                                <Text style={{ color: "red" }} key={i}>
+                                    {JSON.stringify({
+                                        type,
+                                        args,
+                                    })}
+                                </Text>
                             );
                     }
                 }

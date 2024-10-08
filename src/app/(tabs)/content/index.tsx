@@ -45,6 +45,7 @@ export default function Content() {
         { title: "Species", href: "/content/species" },
         { title: "Actions", href: "/content/actions" },
         { title: "Conditions", href: "/content/conditions" },
+        { title: "Backgrounds", href: "/content/backgrounds" },
     ] as const;
     return (
         <View

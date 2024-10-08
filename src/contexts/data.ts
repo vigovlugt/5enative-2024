@@ -13,6 +13,7 @@ import {
     Subclass as SubClass,
 } from "../types/class";
 import { getSpeciesId, Species } from "../types/species";
+import { Background, getBackgroundId } from "../types/background";
 
 export type Data = {
     spells: Spell[];
@@ -24,6 +25,7 @@ export type Data = {
     classFeatures: ClassFeature[];
     subClasses: SubClass[];
     species: Species[];
+    backgrounds: Background[];
 };
 
 export const DataContext = createContext<Data | null>(null);
@@ -84,4 +86,13 @@ export function useSpecies(id?: string) {
     }
 
     return species.find((s) => getSpeciesId(s) === id);
+}
+
+export function useBackground(id?: string) {
+    const { backgrounds } = useData();
+    if (!id) {
+        return undefined;
+    }
+
+    return backgrounds.find((b) => getBackgroundId(b) === id);
 }

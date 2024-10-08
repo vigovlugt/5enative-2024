@@ -2,7 +2,7 @@ import { ScrollView, View } from "react-native";
 import { Text } from "@/src/components/text";
 import { useSelectedCharacter } from "@/src/stores/character-store";
 import { Link } from "@/src/components/ui/link";
-import { useData, useSpecies } from "@/src/contexts/data";
+import { useBackground, useData, useSpecies } from "@/src/contexts/data";
 import { getSpellId } from "@/src/types/spell/spell";
 import { SpellDataTable } from "@/src/components/spell-datatable";
 import { getClassId, getSubclassId } from "@/src/types/class";
@@ -12,6 +12,7 @@ export default function Index() {
     const { spells, classFeatures } = useData();
     const character = useSelectedCharacter();
     const species = useSpecies(character?.species);
+    const background = useBackground(character?.background);
 
     if (!character) {
         return (
@@ -65,13 +66,19 @@ export default function Index() {
         >
             <View>
                 <Text style={{ fontSize: 20, fontWeight: "bold" }}>Spells</Text>
-                <SpellDataTable spells={characterSpells} />
+                <SpellDataTable
+                    scrollEnabled={false}
+                    spells={characterSpells}
+                />
             </View>
             <View>
                 <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                     Class Features
                 </Text>
-                <ClassFeatureDataTable classFeatures={characterClassFeatures} />
+                <ClassFeatureDataTable
+                    scrollEnabled={false}
+                    classFeatures={characterClassFeatures}
+                />
             </View>
 
             <View>
@@ -81,11 +88,26 @@ export default function Index() {
                 <Link
                     variant="link"
                     href={{
-                        pathname: "/content/species/[id]",
+                        pathname: "/species/[id]",
                         params: { id: character.species },
                     }}
                 >
                     {species?.name}
+                </Link>
+            </View>
+
+            <View>
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                    Background
+                </Text>
+                <Link
+                    variant="link"
+                    href={{
+                        pathname: "/backgrounds/[id]",
+                        params: { id: character.background },
+                    }}
+                >
+                    {background?.name}
                 </Link>
             </View>
         </ScrollView>

@@ -75,6 +75,8 @@ export default function CharacterSelect() {
                             classes: {},
                             spells: [],
                             species: "human_xphb",
+                            background: "acolyte_xphb",
+                            items: [],
                         },
                     });
                     setSelectedCharacterId(id);

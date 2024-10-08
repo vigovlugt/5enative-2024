@@ -42,7 +42,7 @@ export default function SpeciesPage() {
                 data={filteredSpecies}
                 itemHeight={38}
                 href={(row) => ({
-                    pathname: "/content/species/[id]",
+                    pathname: "/species/[id]",
                     params: { id: getSpeciesId(row.original) },
                 })}
             />

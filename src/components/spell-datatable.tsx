@@ -17,14 +17,18 @@ const columns = [
     }),
 ] satisfies ColumnDef<Spell, any>[];
 
-export function SpellDataTable({ spells }: { spells: Spell[] }) {
+export function SpellDataTable({
+    spells,
+    ...props
+}: { spells: Spell[] } & Partial<React.ComponentProps<typeof DataTable>>) {
     return (
         <DataTable
+            {...props}
             columns={columns}
             data={spells}
             itemHeight={38}
             href={(row) => ({
-                pathname: "/content/spells/[id]",
+                pathname: "/spells/[id]",
                 params: { id: getSpellId(row.original) },
             })}
         />

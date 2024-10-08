@@ -14,14 +14,16 @@ const columns = [
         cell: (cell) => (
             <View>
                 <Text>{cell.getValue()}</Text>
-                <Text
-                    style={{
-                        fontSize: 12,
-                        color: "gray",
-                    }}
-                >
-                    {cell.row.original.subclassShortName}
-                </Text>
+                {cell.row.original.subclassShortName && (
+                    <Text
+                        style={{
+                            fontSize: 12,
+                            color: "gray",
+                        }}
+                    >
+                        {cell.row.original.subclassShortName}
+                    </Text>
+                )}
             </View>
         ),
     }),
@@ -39,16 +41,18 @@ const columns = [
 
 export function ClassFeatureDataTable({
     classFeatures,
+    ...props
 }: {
     classFeatures: ClassFeature[];
-}) {
+} & Partial<React.ComponentProps<typeof DataTable>>) {
     return (
         <DataTable
+            {...props}
             columns={columns}
             data={classFeatures}
             itemHeight={38}
             href={(row) => ({
-                pathname: "/content/class-features/[id]",
+                pathname: "/class-features/[id]",
                 params: { id: getClassFeatureId(row.original) },
             })}
         />

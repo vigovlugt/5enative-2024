@@ -5,7 +5,7 @@ import { getActionId, Action } from "@/src/types/action";
 import { getRuleId } from "@/src/types/rule";
 import { getSpellId } from "@/src/types/spell/spell";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { Href, useFocusEffect } from "expo-router";
+import { Href, router, useFocusEffect } from "expo-router";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { TextInput, View } from "react-native";
 import { Text } from "@/src/components/text";
@@ -42,32 +42,32 @@ function itemHref(item: SearchItem): Href<string | object> {
     switch (item.type) {
         case "action":
             return {
-                pathname: "/content/actions/[id]",
+                pathname: "/actions/[id]",
                 params: { id: item.id },
             } satisfies Href;
         case "rule":
             return {
-                pathname: "/content/rules/[id]",
+                pathname: "/rules/[id]",
                 params: { id: item.id },
             } satisfies Href;
         case "spell":
             return {
-                pathname: "/content/spells/[id]",
+                pathname: "/spells/[id]",
                 params: { id: item.id },
             } satisfies Href;
         case "classFeature":
             return {
-                pathname: "/content/class-features/[id]",
+                pathname: "/class-features/[id]",
                 params: { id: item.id },
             } satisfies Href;
         case "feat":
             return {
-                pathname: "/content/feats/[id]",
+                pathname: "/feats/[id]",
                 params: { id: item.id },
             } satisfies Href;
         case "condition":
             return {
-                pathname: "/content/conditions/[id]",
+                pathname: "/conditions/[id]",
                 params: { id: item.id },
             } satisfies Href;
     }
@@ -186,6 +186,11 @@ export default function SearchPage() {
                 <Input
                     value={search}
                     onChangeText={setSearch}
+                    onSubmitEditing={() => {
+                        if (filteredItems.length >= 1) {
+                            router.navigate(itemHref(filteredItems[0]));
+                        }
+                    }}
                     placeholder="Search..."
                     placeholderTextColor={"#666"}
                     ref={searchRef}

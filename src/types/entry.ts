@@ -15,7 +15,8 @@ export type EntriesEntry = {
 export type ItemEntry = {
     type: "item";
     name: string;
-    entries: Entry[];
+    entries?: Entry[];
+    entry?: Entry;
 };
 
 export type ListEntry = {

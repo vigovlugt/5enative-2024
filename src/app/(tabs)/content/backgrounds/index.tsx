@@ -1,24 +1,24 @@
 import { DataTable } from "@/src/components/data-table";
 import { Input } from "@/src/components/ui/input";
 import { useData } from "@/src/contexts/data";
-import { getConditionId, Condition } from "@/src/types/condition";
+import { getBackgroundId, Background } from "@/src/types/background";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import React from "react";
 import { View } from "react-native";
 
-const columnHelper = createColumnHelper<Condition>();
+const columnHelper = createColumnHelper<Background>();
 const columns = [
     columnHelper.accessor("name", {
         header: "Name",
     }),
-] satisfies ColumnDef<Condition, any>[];
+] satisfies ColumnDef<Background, any>[];
 
-export default function ConditionsPage() {
-    const { conditions } = useData();
+export default function BackgroundsPage() {
+    const { backgrounds } = useData();
     const [search, setSearch] = React.useState("");
 
-    const filteredConditions = conditions.filter((condition) =>
-        condition.name.toLowerCase().includes(search.toLowerCase()),
+    const filteredBackgrounds = backgrounds.filter((background) =>
+        background.name.toLowerCase().includes(search.toLowerCase()),
     );
 
     return (
@@ -39,11 +39,11 @@ export default function ConditionsPage() {
             </View>
             <DataTable
                 columns={columns}
-                data={filteredConditions}
+                data={filteredBackgrounds}
                 itemHeight={38}
                 href={(row) => ({
-                    pathname: "/conditions/[id]",
-                    params: { id: getConditionId(row.original) },
+                    pathname: "/backgrounds/[id]",
+                    params: { id: getBackgroundId(row.original) },
                 })}
             />
         </View>

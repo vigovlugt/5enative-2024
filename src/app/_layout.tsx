@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { DataContext } from "../contexts/data";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
+import { useCharacterHydrated } from "../stores/character-store";
 
 import spellsData from "../../assets/data/spells/spells-xphb.json";
 import rulesData from "../../assets/data/variantrules.json";
@@ -21,8 +22,7 @@ import sorcererData from "../../assets/data/class/class-sorcerer.json";
 import warlockData from "../../assets/data/class/class-warlock.json";
 import wizardData from "../../assets/data/class/class-wizard.json";
 import raceData from "../../assets/data/races.json";
-import { useCharacterHydrated } from "../stores/character-store";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import backgroundData from "../../assets/data/backgrounds.json";
 
 const classData = {
     artificer: artificerData,
@@ -81,6 +81,9 @@ export default function RootLayout() {
                         .filter((c) => c.source === "XPHB") as any,
                     species: raceData.race.filter(
                         (r) => r.source === "XPHB",
+                    ) as any,
+                    backgrounds: backgroundData.background.filter(
+                        (b) => b.source === "XPHB",
                     ) as any,
                 }}
             >

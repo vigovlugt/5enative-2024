@@ -42,7 +42,7 @@ export default function ActionsPage() {
                 data={filteredActions}
                 itemHeight={38}
                 href={(row) => ({
-                    pathname: "/content/actions/[id]",
+                    pathname: "/actions/[id]",
                     params: { id: getActionId(row.original) },
                 })}
             />

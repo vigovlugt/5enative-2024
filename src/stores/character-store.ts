@@ -1,4 +1,4 @@
-import { create, useStore } from "zustand";
+import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
@@ -8,6 +8,13 @@ export type Character = {
     classes: Record<string, CharacterClass>;
     species: string;
     spells: string[];
+    background: string;
+    items: CharacterItem[];
+};
+
+export type CharacterItem = {
+    id: string;
+    quantity: number;
 };
 
 export type CharacterClass = {

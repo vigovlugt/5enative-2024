@@ -42,7 +42,7 @@ export default function FeatsPage() {
                 data={filteredFeats}
                 itemHeight={38}
                 href={(row) => ({
-                    pathname: "/content/feats/[id]",
+                    pathname: "/feats/[id]",
                     params: { id: getFeatId(row.original) },
                 })}
             />

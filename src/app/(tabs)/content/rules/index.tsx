@@ -42,7 +42,7 @@ export default function RulesPage() {
                 data={filteredRules}
                 itemHeight={38}
                 href={(row) => ({
-                    pathname: "/content/rules/[id]",
+                    pathname: "/rules/[id]",
                     params: { id: getRuleId(row.original) },
                 })}
             />

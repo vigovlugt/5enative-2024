@@ -21,13 +21,14 @@ import { useData } from "../contexts/data";
 import { getClassId, getSubclassId } from "../types/class";
 import { Select } from "../components/ui/select";
 import { getSpeciesId } from "../types/species";
+import { getBackgroundId } from "../types/background";
 
 export default function CharacterEdit() {
     const character = useSelectedCharacter();
     const characters = useCharacters();
     const { setCharacters } = useCharacterActions();
     const theme = useTheme();
-    const { classes, subClasses, species } = useData();
+    const { classes, subClasses, species, backgrounds } = useData();
 
     if (!character) {
         return (
@@ -124,6 +125,32 @@ export default function CharacterEdit() {
                             label={s.name}
                             value={getSpeciesId(s)}
                             key={getSpeciesId(s)}
+                        />
+                    ))}
+                </Select>
+            </View>
+
+            <View
+                style={{
+                    flexDirection: "row",
+                    gap: 8,
+                    alignItems: "center",
+                }}
+            >
+                <Text style={{ fontWeight: "bold" }}>Background </Text>
+                <Select
+                    selectedValue={character.background}
+                    onValueChange={(background) =>
+                        updateCharacter({
+                            background,
+                        })
+                    }
+                >
+                    {backgrounds.map((b) => (
+                        <Select.Item
+                            label={b.name}
+                            value={getBackgroundId(b)}
+                            key={getSpeciesId(b)}
                         />
                     ))}
                 </Select>

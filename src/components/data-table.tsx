@@ -35,6 +35,7 @@ type DataTableProps<TData, TValue> = {
     href?: (row: Row<TData>) => Href<string | object>;
     onPress?: (row: Row<TData>) => void;
     itemHeight: number;
+    scrollEnabled?: boolean;
 };
 
 export function DataTable<TData, TValue>({
@@ -43,6 +44,7 @@ export function DataTable<TData, TValue>({
     href,
     onPress,
     itemHeight,
+    scrollEnabled,
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -94,6 +96,7 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
                 <TableBody
                     data={table.getRowModel().rows}
+                    scrollEnabled={scrollEnabled}
                     getItemLayout={(data, index) => ({
                         length: itemHeight,
                         offset: itemHeight * index,
@@ -144,6 +147,7 @@ export function DataTable<TData, TValue>({
             ) : (
                 <TableBody
                     data={[null]}
+                    scrollEnabled={false}
                     renderItem={() => (
                         <TableRow>
                             <TableCell
