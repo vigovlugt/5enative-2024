@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "5enative-2024",
+    "name": "5enative 2024",
     "slug": "5enative-2024",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "backgroundColor": "#000000",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "resizeMode": "contain"
     },
     "ios": {
       "supportsTablet": true

@@ -14,8 +14,7 @@ export function ContentCell({
         <Link
             style={{
                 padding: 8,
-                paddingTop: 32,
-                paddingBottom: 32,
+                height: 96,
                 backgroundColor: theme.colors.card,
                 borderRadius: 8,
                 borderWidth: 1,
@@ -35,6 +34,18 @@ export function ContentCell({
 }
 
 export default function Content() {
+    const content = [
+        { title: "Spells", href: "/content/spells" },
+        { title: "Rules", href: "/content/rules" },
+        {
+            title: "Class Features",
+            href: "/content/class-features",
+        },
+        { title: "Feats", href: "/content/feats" },
+        { title: "Species", href: "/content/species" },
+        { title: "Actions", href: "/content/actions" },
+        { title: "Conditions", href: "/content/conditions" },
+    ] as const;
     return (
         <View
             style={{
@@ -45,19 +56,8 @@ export default function Content() {
         >
             <FlatList
                 inverted
-                data={
-                    [
-                        { title: "Spells", href: "/content/spells" },
-                        { title: "Rules", href: "/content/rules" },
-                        {
-                            title: "Class Features",
-                            href: "/content/class-features",
-                        },
-                        { title: "Feats", href: "/content/feats" },
-                        { title: "Actions", href: "/content/actions" },
-                        { title: "Conditions", href: "/content/conditions" },
-                    ] as const
-                }
+                initialNumToRender={content.length}
+                data={content}
                 numColumns={2}
                 columnWrapperStyle={{
                     gap: 8,

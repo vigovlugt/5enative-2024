@@ -79,6 +79,7 @@ function TableCell({ ...props }: ComponentProps<typeof View>) {
                 {
                     padding: 8,
                     flex: 1,
+                    justifyContent: "center",
                 },
                 props.style,
             ]}

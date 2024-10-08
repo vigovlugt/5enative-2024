@@ -22,6 +22,7 @@ import {
 } from "./ui/table";
 import { Text } from "./text";
 import { getClassFeatureId } from "../types/class";
+import { getFeatId } from "../types/feat";
 
 export function Entry({ entry }: { entry: EntryType }) {
     if (typeof entry === "string") {
@@ -38,6 +39,8 @@ export function Entry({ entry }: { entry: EntryType }) {
             return <ListEntry entry={entry} />;
         case "refSubclassFeature":
             return <RefSubclassFeatureEntry entry={entry} />;
+        case "refFeat":
+            return <RefFeatEntry entry={entry} />;
     }
 
     entry satisfies never;
@@ -49,7 +52,7 @@ export function Entry({ entry }: { entry: EntryType }) {
 export function TableEntry({ entry }: { entry: TableEntryType }) {
     return (
         <View>
-            <Text>{entry.caption}</Text>
+            <Text style={{ fontWeight: "bold" }}>{entry.caption}</Text>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -154,6 +157,31 @@ export function RefSubclassFeatureEntry({
                         subclassSource,
                         level: parseInt(level),
                         source: subclassSource,
+                    }),
+                },
+            }}
+        >
+            {name}
+        </Link>
+    );
+}
+
+export function RefFeatEntry({ entry }: { entry: { feat: string } }) {
+    const { feat } = entry;
+
+    const parts = feat.split("|"); // Gloom Stalker|Ranger|XPHB|Gloom Stalker|XPHB|3
+    let [name, source] = parts;
+    source ||= "PHB";
+
+    return (
+        <Link
+            variant="link"
+            href={{
+                pathname: "/content/feats/[id]",
+                params: {
+                    id: getFeatId({
+                        name,
+                        source,
                     }),
                 },
             }}

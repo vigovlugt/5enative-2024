@@ -11,6 +11,9 @@ export function Link<T extends string | object>(
         <ExpoLink
             {...props}
             style={[
+                {
+                    color: theme.colors.text,
+                },
                 props.variant === "link" && {
                     color: theme.colors.primary,
                 },

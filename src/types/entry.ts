@@ -34,10 +34,16 @@ export type RefSubclassFeatureEntry = {
     subclassFeature: string;
 };
 
+export type RefFeatEntry = {
+    type: "refFeat";
+    feat: string;
+};
+
 export type Entry =
     | string
     | TableEntry
     | EntriesEntry
     | ItemEntry
     | ListEntry
-    | RefSubclassFeatureEntry;
+    | RefSubclassFeatureEntry
+    | RefFeatEntry;

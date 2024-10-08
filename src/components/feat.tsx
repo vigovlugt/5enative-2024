@@ -23,6 +23,9 @@ export function Feat({ feat }: { feat: FeatType }) {
                 >
                     {featRequirements(feat)}
                 </Text>
+                <Text>
+                    Ability Score Increase. {JSON.stringify(feat.ability)}
+                </Text>
             </View>
             <EntriesEntry
                 entry={{

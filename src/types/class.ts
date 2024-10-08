@@ -207,11 +207,13 @@ export type ClassFeature = {
 };
 
 export function getClassId(cls: Pick<Class, "name" | "source">) {
-    return `${cls.name.toLowerCase()}_${cls.source}`;
+    return `${cls.name.toLowerCase()}_${cls.source.toLowerCase()}`;
 }
 
-export function getSubclassId(cls: Subclass) {
-    return `${cls.className.toLowerCase()}_${cls.classSource}_${cls.shortName.toLowerCase()}_${cls.source}`;
+export function getSubclassId(
+    cls: Pick<Subclass, "shortName" | "source" | "className" | "classSource">,
+) {
+    return `${cls.className.toLowerCase()}_${cls.classSource.toLowerCase()}_${cls.shortName.toLowerCase()}_${cls.source.toLowerCase()}`;
 }
 
 export function getClassFeatureId(
@@ -227,11 +229,11 @@ export function getClassFeatureId(
     >,
 ) {
     return (
-        `${cls.className.toLowerCase()}_${cls.classSource}_` +
+        `${cls.className.toLowerCase()}_${cls.classSource.toLowerCase()}_` +
         (cls.subclassShortName
-            ? `${cls.subclassShortName.toLowerCase()}_${cls.subclassSource}_`
+            ? `${cls.subclassShortName.toLowerCase()}_${cls.subclassSource!.toLowerCase()}_`
             : "") +
-        `${cls.level}_${cls.name.toLowerCase()}_${cls.source}`
+        `${cls.level}_${cls.name.toLowerCase()}_${cls.source.toLowerCase()}`
     );
 }
 

@@ -20,6 +20,9 @@ import rogueData from "../../assets/data/class/class-rogue.json";
 import sorcererData from "../../assets/data/class/class-sorcerer.json";
 import warlockData from "../../assets/data/class/class-warlock.json";
 import wizardData from "../../assets/data/class/class-wizard.json";
+import raceData from "../../assets/data/races.json";
+import { useCharacterHydrated } from "../stores/character-store";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const classData = {
     artificer: artificerData,
@@ -38,6 +41,11 @@ const classData = {
 } as const;
 
 export default function RootLayout() {
+    const characterStoreHydrated = useCharacterHydrated();
+    if (!characterStoreHydrated) {
+        return null;
+    }
+
     return (
         <ThemeProvider value={DarkTheme}>
             <DataContext.Provider
@@ -71,6 +79,9 @@ export default function RootLayout() {
                     subClasses: Object.values(classData)
                         .flatMap((c) => c.subclass as any)
                         .filter((c) => c.source === "XPHB") as any,
+                    species: raceData.race.filter(
+                        (r) => r.source === "XPHB",
+                    ) as any,
                 }}
             >
                 <Stack
@@ -82,6 +93,10 @@ export default function RootLayout() {
                     <Stack.Screen
                         name="(tabs)"
                         options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="character-select"
+                        options={{ presentation: "modal" }}
                     />
                 </Stack>
             </DataContext.Provider>

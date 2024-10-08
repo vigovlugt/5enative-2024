@@ -54,7 +54,8 @@ Join our community of developers creating universal apps.
 Install app preview
 
 ```bash
-pnpm eas build --profile preview --platform android --local --output=dist/app.apk
-nix-shell -p android-tools
-adb install dist/app.apk
+NODE_ENV=production pnpm eas build --platform android --local --output=dist/app.aab
+rm dist/app.apks
+bundletool build-apks --bundle=dist/app.aab --output=dist/app.apks --ks=key.jks --ks-key-alias=your-key-alias
+bundletool install-apks --apks=dist/app.apks
 ```

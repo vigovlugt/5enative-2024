@@ -1,25 +1,8 @@
-import { DataTable } from "@/src/components/data-table";
+import { SpellDataTable } from "@/src/components/spell-datatable";
 import { Input } from "@/src/components/ui/input";
 import { useData } from "@/src/contexts/data";
-import { getSpellId, Spell } from "@/src/types/spell/spell";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import React from "react";
 import { View } from "react-native";
-
-const columnHelper = createColumnHelper<Spell>();
-const columns = [
-    columnHelper.accessor((s) => s.level, {
-        id: "level",
-        header: "Lvl",
-        meta: {
-            maxWidth: 38,
-            textAlign: "center",
-        },
-    }),
-    columnHelper.accessor("name", {
-        header: "Name",
-    }),
-] satisfies ColumnDef<Spell, any>[];
 
 export default function SpellsPage() {
     const { spells } = useData();
@@ -45,15 +28,7 @@ export default function SpellsPage() {
                     placeholderTextColor={"#666"}
                 />
             </View>
-            <DataTable
-                columns={columns}
-                data={filteredSpells}
-                itemHeight={38}
-                href={(row) => ({
-                    pathname: "/content/spells/[id]",
-                    params: { id: getSpellId(row.original) },
-                })}
-            />
+            <SpellDataTable spells={filteredSpells} />
         </View>
     );
 }
