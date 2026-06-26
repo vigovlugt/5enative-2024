@@ -1,8 +1,8 @@
-import { useTheme } from "@react-navigation/native";
+import { useTheme } from "expo-router/react-navigation";
 import { LinkProps, Link as ExpoLink, useRouter } from "expo-router";
 
-export function Link<T extends string | object>(
-    props: LinkProps<T> & {
+export function Link(
+    props: LinkProps & {
         variant?: "link";
     },
 ) {

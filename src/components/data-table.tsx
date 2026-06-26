@@ -32,7 +32,7 @@ declare module "@tanstack/react-table" {
 type DataTableProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
-    href?: (row: Row<TData>) => Href<string | object>;
+    href?: (row: Row<TData>) => Href;
     onPress?: (row: Row<TData>) => void;
     itemHeight: number;
     scrollEnabled?: boolean;

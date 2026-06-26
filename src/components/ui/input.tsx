@@ -1,4 +1,4 @@
-import { useTheme } from "@react-navigation/native";
+import { useTheme } from "expo-router/react-navigation";
 import { TextInput, TextInputProps } from "react-native";
 import React, { forwardRef } from "react";
 

@@ -1,6 +1,6 @@
 import { Pressable } from "react-native";
 import { useSelectedCharacter } from "../stores/character-store";
-import { DarkTheme, useTheme } from "@react-navigation/native";
+import { DarkTheme, useTheme } from "expo-router/react-navigation";
 import { Text } from "./text";
 import { Link } from "./ui/link";
 

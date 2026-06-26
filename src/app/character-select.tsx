@@ -1,7 +1,7 @@
 import { Pressable, PressableProps, View } from "react-native";
 import { Text } from "../components/text";
 import { useCharacterActions, useCharacters } from "../stores/character-store";
-import { useTheme } from "@react-navigation/native";
+import { useTheme } from "expo-router/react-navigation";
 import { Plus } from "lucide-react-native";
 import { router } from "expo-router";
 import * as Crypto from "expo-crypto";

@@ -38,7 +38,7 @@ function itemTypeName(type: SearchItemType) {
         condition: "Condition",
     }[type];
 }
-function itemHref(item: SearchItem): Href<string | object> {
+function itemHref(item: SearchItem): Href {
     switch (item.type) {
         case "action":
             return {

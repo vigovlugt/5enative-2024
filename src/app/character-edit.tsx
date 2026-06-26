@@ -13,7 +13,7 @@ import {
     useCharacters,
     useSelectedCharacter,
 } from "../stores/character-store";
-import { useTheme } from "@react-navigation/native";
+import { useTheme } from "expo-router/react-navigation";
 import { Plus } from "lucide-react-native";
 import { router } from "expo-router";
 import { Input } from "../components/ui/input";

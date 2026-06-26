@@ -1,4 +1,4 @@
-import { useTheme } from "@react-navigation/native";
+import { useTheme } from "expo-router/react-navigation";
 import { ComponentProps } from "react";
 import { View, FlatList, Pressable } from "react-native";
 import { Text } from "../text";

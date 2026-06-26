@@ -1,7 +1,7 @@
 import { CharacterSelector } from "@/src/components/character-selector";
 import { Link } from "@/src/components/ui/link";
 import { useSelectedCharacter } from "@/src/stores/character-store";
-import { useTheme } from "@react-navigation/native";
+import { useTheme } from "expo-router/react-navigation";
 import { Stack } from "expo-router";
 import { Button, Text, View } from "react-native";
 

@@ -1,4 +1,4 @@
-import { useTheme } from "@react-navigation/native";
+import { useTheme } from "expo-router/react-navigation";
 import { Href, Link } from "expo-router";
 import { FlatList, View } from "react-native";
 
@@ -7,7 +7,7 @@ export function ContentCell({
     href,
 }: {
     title: string;
-    href: Href<string | object>;
+    href: Href;
 }) {
     const theme = useTheme();
     return (

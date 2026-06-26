@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import { DataContext } from "../contexts/data";
-import { DarkTheme, ThemeProvider } from "@react-navigation/native";
+import { DarkTheme, ThemeProvider } from "expo-router/react-navigation";
 import { useCharacterHydrated } from "../stores/character-store";
 
 import spellsData from "../../assets/data/spells/spells-xphb.json";
